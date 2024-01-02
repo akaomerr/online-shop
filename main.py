@@ -41,5 +41,21 @@ def addproduct():
             return render_template('addproduct.html',admin_password_check=admin_password_check)
     return render_template('addproduct.html')
 
+@app.route("/add_to_cart/<product_name>/<product_price>", methods=['POST'])
+def add_to_cart(product_name, product_price):
+    cart_csv_path = os.path.join(os.path.dirname(__file__), 'templates', 'cart.csv')
+
+    if not os.path.exists(cart_csv_path):
+        with open(cart_csv_path, mode='w', newline='') as cart_file:
+            cart_writer = csv.writer(cart_file)
+            cart_writer.writerow(['Product Name', 'Product Price'])
+
+    with open(cart_csv_path, mode='a', newline='') as cart_file:
+        cart_writer = csv.writer(cart_file)
+        cart_writer.writerow([product_name, product_price])
+
+    return redirect('/')
+
+
 if __name__ == "__main__":
     app.run(debug=True)
