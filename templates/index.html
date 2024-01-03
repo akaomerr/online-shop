@@ -15,7 +15,11 @@
                     <img src="static/pc.png" alt="Logo" width="70" height="70" class="d-inline-block align-text-top">
                     HAS PC
                 </a>
-                <a class="btn btn-outline-light" href="{{url_for('addproduct')}}" role="button">Add Product</a>
+                <div>
+                    <a class="btn btn-outline-light" href="{{url_for('cart')}}" role="button" style="margin-right: 15px;">Go to Cart</a>
+                    <a class="btn btn-outline-light" href="{{url_for('addproduct')}}" role="button">Add Product</a>
+                </div>
+                
             </div>
         </nav>
         <div class="container">

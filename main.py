@@ -56,6 +56,11 @@ def add_to_cart(product_name, product_price):
 
     return redirect('/')
 
+@app.route("/cart")
+def cart():
+
+    return render_template('cart.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
