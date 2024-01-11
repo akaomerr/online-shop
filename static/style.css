@@ -7,3 +7,15 @@
 .card-class{
     margin: 40px,10px,10px,50px!important;
 }
+
+.cart-list{
+    margin-left: 15px;
+    margin-top: 20px;
+    min-width: 70px;
+}
+.list-group-horizontal{
+    padding-bottom: 15px;
+}
+.cart-del-button{
+    margin-left: 15px;
+}

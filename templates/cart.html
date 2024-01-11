@@ -18,5 +18,15 @@
                 <a class="btn btn-outline-light" href="{{url_for('addproduct')}}" role="button">Add Product</a>
             </div>
         </nav>
+        <div class="cart-list">
+            {%for product in products%}
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item">{{product.product_name}}</li>
+                    <li class="list-group-item">${{product.product_price}}</li>
+                    <a href="{{ url_for('deleted_product',product_id=product.product_id) }}" class="btn btn-danger cart-del-button">Delete</a>
+                </ul>
+            {%endfor%}
+            
+        </div>
     </body>
 </html>

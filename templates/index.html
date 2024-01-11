@@ -32,7 +32,7 @@
                                 <h5 class="card-title" style="color: #5C8374;">{{ product.product_name }}</h5>
                                 <p class="card-text" style="color: #9BB8CD;">{{ product.product_description }}</p>
                                 <h4 class="card-text" style="font-weight: bold; color: #FF9800;">Price: ${{ product.product_price }}</h4>
-                                <form method="POST" action="{{ url_for('add_to_cart', product_name=product.product_name, product_price=product.product_price) }}">
+                                <form method="POST" action="{{ url_for('add_to_cart', product_name=product.product_name, product_price=product.product_price,product_id=product.product_id) }}">
                                     <button type="submit" class="btn btn-outline-success">Add to Cart</button>
                                 </form>
                             </div>
