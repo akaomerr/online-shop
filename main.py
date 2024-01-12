@@ -1,8 +1,9 @@
-from flask import Flask, render_template, redirect, request
-import csv,os
+from flask import Flask, render_template, redirect, request,jsonify
+import csv,os,stripe
 from dotenv import load_dotenv
 
-
+stripe_secret=os.getenv('STRIPE_SECRET')
+stripe.api_key=stripe_secret
 
 env_path=os.path.join(os.path.dirname(__file__),'static','secrets.env')
 load_dotenv(env_path)
@@ -108,10 +109,30 @@ def deleted_product(product_id):
 
     return redirect('/cart')
 
-@app.route('/payment')
-def payment():
 
-    return render_template('payment.html')
+
+@app.route('/create-payment-intent', methods=['POST'])
+def create_payment():
+    payment_coast=0
+    with open(cart_csv_path, mode='r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            payment_coast+=int(row[1])
+    try:
+        intent = stripe.PaymentIntent.create(
+            amount=payment_coast*100,
+            currency='usd',
+            automatic_payment_methods={
+                'enabled': True,
+            },
+        )
+        return jsonify({
+            'clientSecret': intent['client_secret']
+        })
+    except Exception as e:
+        return jsonify(error=str(e)), 403
+
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=4242)
