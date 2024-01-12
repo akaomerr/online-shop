@@ -7,6 +7,8 @@ secret_key=os.getenv('ADDITEMPW')
 csv_path = os.path.join(os.path.dirname(__file__), 'templates', 'products.csv')
 app = Flask(__name__)
 
+check_cart=0
+
 cart_csv_path=os.path.join(os.path.dirname(__file__), 'templates', 'cart.csv')
 with open(csv_path, 'r') as file:
     lines = file.readlines()
@@ -14,6 +16,12 @@ with open(csv_path, 'r') as file:
 
 @app.route("/")
 def index():
+    global check_cart
+    if check_cart!=0:
+        add_cart=True
+        check_cart=0
+    else:
+        add_cart=False
     products = []
     with open(csv_path, mode='r') as file:
         reader = csv.reader(file)
@@ -25,7 +33,7 @@ def index():
                 'product_image': row[3],
                 'product_id':row[4]
             })
-    return render_template('index.html', products=products)
+    return render_template('index.html', products=products,add_cart=add_cart)
 
 @app.route("/add_product", methods=['GET', 'POST'])
 def addproduct():
@@ -51,6 +59,9 @@ def addproduct():
 
 @app.route("/add_to_cart/<product_name>/<product_price>/<product_id>", methods=['POST'])
 def add_to_cart(product_name, product_price,product_id):
+    global check_cart
+    if request.method=="POST":
+        check_cart+=1
     if not os.path.exists(cart_csv_path):
         with open(cart_csv_path, mode='w', newline='') as cart_file:
             cart_writer = csv.writer(cart_file)
