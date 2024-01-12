@@ -1,6 +1,9 @@
-from flask import Flask, render_template, redirect, request,jsonify
+from flask import Flask, render_template, redirect, request
 import csv,os
 from dotenv import load_dotenv
+
+
+
 env_path=os.path.join(os.path.dirname(__file__),'static','secrets.env')
 load_dotenv(env_path)
 secret_key=os.getenv('ADDITEMPW')
@@ -76,6 +79,7 @@ def add_to_cart(product_name, product_price,product_id):
 @app.route("/cart")
 def cart():
     products = []
+    total_coast=0
     with open(cart_csv_path, mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
@@ -84,7 +88,8 @@ def cart():
                 'product_price': row[1],
                 'product_id':row[2]
             })
-    return render_template('cart.html', products=products)
+            total_coast+=int(row[1])
+    return render_template('cart.html', products=products, total_coast=total_coast)
 
 @app.route('/deleted_product/<int:product_id>')
 def deleted_product(product_id):
@@ -102,6 +107,11 @@ def deleted_product(product_id):
         writer.writerows(rows)
 
     return redirect('/cart')
+
+@app.route('/payment')
+def payment():
+
+    return render_template('payment.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -26,7 +26,11 @@
                     <a href="{{ url_for('deleted_product',product_id=product.product_id) }}" class="btn btn-danger cart-del-button">Delete</a>
                 </ul>
             {%endfor%}
-            
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" style="font-weight: bold;">Total</li>
+                <li class="list-group-item">${{total_coast}}</li>
+                <a href="{{ url_for('payment') }}" class="btn btn-success cart-del-button">Pay</a>
+            </ul>
         </div>
     </body>
 </html>
